@@ -150,6 +150,7 @@ function App() {
   const [isSubtitlesEnabled, setIsSubtitlesEnabled] = useState(false)
   const [activeSceneId, setActiveSceneId] = useState(SCENES[0].id)
   const [audioBlocked, setAudioBlocked] = useState(false)
+  const [isControlsOpen, setIsControlsOpen] = useState(false)
   const [mediaIndexByScene, setMediaIndexByScene] = useState(() =>
     SCENES.reduce((acc, scene) => {
       acc[scene.id] = 0
@@ -160,6 +161,7 @@ function App() {
   const sceneRefs = useRef({})
   const audioRefs = useRef({})
   const scrollContainerRef = useRef(null)
+  const controlsRef = useRef(null)
 
   useEffect(() => {
     const container = scrollContainerRef.current
@@ -243,6 +245,17 @@ function App() {
     return () => clearInterval(interval)
   }, [activeSceneId])
 
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (!controlsRef.current?.contains(event.target)) {
+        setIsControlsOpen(false)
+      }
+    }
+
+    document.addEventListener('pointerdown', handleOutsideClick)
+    return () => document.removeEventListener('pointerdown', handleOutsideClick)
+  }, [])
+
   return (
     <main className="story-app">
       <header className="story-header">
@@ -285,6 +298,10 @@ function App() {
                     item={currentItem}
                     className="media-transition"
                   />
+
+                  {mode === 'enriched' && isSubtitlesEnabled && (
+                    <p className="scene-subtitle scene-subtitle-overlay">{scene.subtitle}</p>
+                  )}
                 </div>
 
                 <div className="media-pagination" aria-label="Progresso das mídias da cena">
@@ -296,10 +313,6 @@ function App() {
                     />
                   ))}
                 </div>
-
-                {mode === 'enriched' && isSubtitlesEnabled && (
-                  <p className="scene-subtitle">{scene.subtitle}</p>
-                )}
 
                 <audio
                   ref={(element) => {
@@ -314,48 +327,73 @@ function App() {
         })}
       </div>
 
-      <aside className="floating-controls" aria-label="Controles narrativos">
-        <div className="mode-toggle">
+      <aside
+        ref={controlsRef}
+        className={`floating-controls ${isControlsOpen ? 'open' : 'collapsed'}`}
+        aria-label="Controles narrativos"
+      >
+        <button
+          type="button"
+          className="controls-fab"
+          aria-label="Abrir ou fechar controles"
+          aria-expanded={isControlsOpen}
+          onClick={() => setIsControlsOpen((value) => !value)}
+        >
+          <span className="fab-icon">{isControlsOpen ? '×' : '☰'}</span>
+          <span className="fab-summary">
+            {mode === 'base' ? 'Base' : 'Enriq'} · {isAudioEnabled ? 'A' : '-'} ·{' '}
+            {isSubtitlesEnabled ? 'L' : '-'}
+          </span>
+        </button>
+
+        <div className="controls-panel">
+          <div className="controls-head">
+            <p>Controlo da narrativa</p>
+            <span>{mode === 'base' ? 'Modo Visual' : 'Modo Enriquecido'}</span>
+          </div>
+
+          <div className="mode-toggle">
+            <button
+              type="button"
+              className={mode === 'base' ? 'selected' : ''}
+              onClick={() => setMode('base')}
+            >
+              Versão Base
+            </button>
+            <button
+              type="button"
+              className={mode === 'enriched' ? 'selected' : ''}
+              onClick={() => setMode('enriched')}
+            >
+              Versão Enriquecida
+            </button>
+          </div>
+
           <button
             type="button"
-            className={mode === 'base' ? 'selected' : ''}
-            onClick={() => setMode('base')}
+            disabled={mode !== 'enriched'}
+            className="control-btn"
+            onClick={() => setIsSubtitlesEnabled((value) => !value)}
           >
-            Versão Base
+            {isSubtitlesEnabled ? 'Ocultar Legendas' : 'Adicionar Legendas'}
           </button>
+
           <button
             type="button"
-            className={mode === 'enriched' ? 'selected' : ''}
-            onClick={() => setMode('enriched')}
+            disabled={mode !== 'enriched'}
+            className="control-btn"
+            onClick={() => setIsAudioEnabled((value) => !value)}
           >
-            Versão Enriquecida
+            {isAudioEnabled ? 'Desativar Áudio' : 'Ativar Áudio'}
           </button>
+
+          {audioBlocked && (
+            <p className="audio-help">
+              O navegador bloqueou reprodução automática. Clique novamente em
+              &quot;Ativar Áudio&quot;.
+            </p>
+          )}
         </div>
-
-        <button
-          type="button"
-          disabled={mode !== 'enriched'}
-          className="control-btn"
-          onClick={() => setIsSubtitlesEnabled((value) => !value)}
-        >
-          {isSubtitlesEnabled ? 'Ocultar Legendas' : 'Adicionar Legendas'}
-        </button>
-
-        <button
-          type="button"
-          disabled={mode !== 'enriched'}
-          className="control-btn"
-          onClick={() => setIsAudioEnabled((value) => !value)}
-        >
-          {isAudioEnabled ? 'Desativar Áudio' : 'Ativar Áudio'}
-        </button>
-
-        {audioBlocked && (
-          <p className="audio-help">
-            O navegador bloqueou reprodução automática. Clique novamente em
-            &quot;Ativar Áudio&quot;.
-          </p>
-        )}
       </aside>
 
       <footer className="story-footer">

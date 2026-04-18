@@ -6,105 +6,115 @@ const FAB_MARGIN = 12
 const SCENES = [
   {
     id: 'cena-1',
-    title: 'Cena 1 · Amanhecer e deslocação',
-    context: '05:10 - 07:20',
+    title: 'Cena 1 · Antes',
+    context: 'Rotina escolar e brincadeiras no bairro',
     subtitle:
-      'Acordo antes do sol. O primeiro autocarro decide se vou chegar a tempo de tudo.',
+      'Nzola, 10 anos, vive com os tios em um bairro periférico de Luanda. A rotina parece normal: escola, brincadeiras e sonhos.',
     audioSrc: '/media/audios/cena-1.wav',
     media: [
       {
         id: 'img-1',
         type: 'image',
-        src: '/media/images/cena-1-img-1.svg',
-        alt: 'Despertador tocando antes do amanhecer',
+        src: '/media/images/storyboard-collage.jpeg',
+        focus: '16% 15%',
+        alt: 'Crianças brincando na rua do bairro',
       },
       {
         id: 'img-2',
         type: 'image',
-        src: '/media/images/cena-1-img-2.svg',
-        alt: 'Café da manhã rápido antes de sair',
+        src: '/media/images/storyboard-collage.jpeg',
+        focus: '50% 14%',
+        alt: 'Nzola brincando com outras crianças',
       },
       {
         id: 'img-3',
         type: 'image',
-        src: '/media/images/cena-1-img-3.svg',
-        alt: 'Ponto de ônibus ainda escuro',
+        src: '/media/images/storyboard-collage.jpeg',
+        focus: '84% 14%',
+        alt: 'Rosto de Nzola sorrindo',
       },
       {
         id: 'img-4',
         type: 'image',
-        src: '/media/images/cena-1-img-4.svg',
-        alt: 'Mãos segurando cadernos durante a viagem',
+        src: '/media/images/storyboard-collage.jpeg',
+        focus: '13% 42%',
+        alt: 'Nzola indo à escola com mochila',
       },
       {
         id: 'vid-1',
         type: 'video',
         src: '/media/videos/cena-1-video-1.mp4',
-        poster: '/media/images/cena-1-img-3.svg',
-        alt: 'Trajeto diário em transporte público',
+        poster: '/media/images/storyboard-collage.jpeg',
+        alt: 'Rotina de bairro e escola em Luanda',
       },
     ],
   },
   {
     id: 'cena-2',
-    title: 'Cena 2 · Aula e cansaço acumulado',
-    context: '08:00 - 14:30',
+    title: 'Cena 2 · Silêncio',
+    context: 'Mudanças de comportamento e medo',
     subtitle:
-      'Na sala, tento manter foco. O corpo já pede pausa, mas o dia só começou.',
+      'Sem mostrar violência explícita, a narrativa revela medo, isolamento e sinais silenciosos que muitas vezes passam despercebidos.',
     audioSrc: '/media/audios/cena-2.wav',
     media: [
       {
         id: 'img-5',
         type: 'image',
-        src: '/media/images/cena-2-img-1.svg',
-        alt: 'Corredor da universidade antes da aula',
+        src: '/media/images/storyboard-collage.jpeg',
+        focus: '11% 70%',
+        alt: 'Nzola com expressão triste e olhar baixo',
       },
       {
         id: 'img-6',
         type: 'image',
-        src: '/media/images/cena-2-img-2.svg',
-        alt: 'Caderno aberto com anotações do curso',
+        src: '/media/images/storyboard-collage.jpeg',
+        focus: '68% 78%',
+        alt: 'Porta semiaberta simbolizando medo e silêncio',
       },
       {
         id: 'img-7',
         type: 'image',
-        src: '/media/images/cena-2-img-3.svg',
-        alt: 'Olhar cansado durante intervalo',
+        src: '/media/images/storyboard-collage.jpeg',
+        focus: '31% 43%',
+        alt: 'Detalhe de tensão e insegurança',
       },
       {
         id: 'vid-2',
         type: 'video',
         src: '/media/videos/cena-2-video-1.mp4',
-        poster: '/media/images/cena-2-img-3.svg',
-        alt: 'Troca rápida de sala entre disciplinas',
+        poster: '/media/images/storyboard-collage.jpeg',
+        alt: 'Cena de isolamento e silêncio',
       },
     ],
   },
   {
     id: 'cena-3',
-    title: 'Cena 3 · Trabalho noturno e retorno',
-    context: '18:00 - 23:40',
+    title: 'Cena 3 · Consequências e apoio',
+    context: 'Escuta, proteção e esperança',
     subtitle:
-      'Quando o turno termina, levo comigo o peso do dia e a esperança de continuar.',
+      'Uma adulta de confiança percebe os sinais, oferece apoio e rompe o ciclo do silêncio. A proteção começa quando alguém escuta e age.',
     audioSrc: '/media/audios/cena-3.wav',
     media: [
       {
         id: 'img-8',
         type: 'image',
-        src: '/media/images/cena-3-img-1.svg',
-        alt: 'Uniforme de trabalho em turno da noite',
+        src: '/media/images/storyboard-collage.jpeg',
+        focus: '83% 42%',
+        alt: 'Abraço e acolhimento entre criança e adulta',
       },
       {
         id: 'img-9',
         type: 'image',
-        src: '/media/images/cena-3-img-2.svg',
-        alt: 'Computador e tarefas no final do expediente',
+        src: '/media/images/storyboard-collage.jpeg',
+        focus: '49% 78%',
+        alt: 'Nzola retomando confiança',
       },
       {
         id: 'img-10',
         type: 'image',
-        src: '/media/images/cena-3-img-3.svg',
-        alt: 'Rua vazia no retorno para casa',
+        src: '/media/images/storyboard-collage.jpeg',
+        focus: '89% 78%',
+        alt: 'Professora observando e oferecendo apoio',
       },
     ],
   },
@@ -128,7 +138,13 @@ function MediaCard({ item, className = '' }) {
   return (
     <article className={`media-card ${className}`.trim()}>
       {item.type === 'image' ? (
-        <img src={item.src} alt={item.alt} loading="lazy" onError={() => setFailed(true)} />
+        <img
+          src={item.src}
+          alt={item.alt}
+          loading="lazy"
+          style={{ objectPosition: item.focus ?? 'center' }}
+          onError={() => setFailed(true)}
+        />
       ) : (
         <video
           src={item.src}
@@ -153,6 +169,7 @@ function App() {
   const [activeSceneId, setActiveSceneId] = useState(SCENES[0].id)
   const [audioBlocked, setAudioBlocked] = useState(false)
   const [isControlsOpen, setIsControlsOpen] = useState(false)
+  const [isLearnMoreOpen, setIsLearnMoreOpen] = useState(false)
   const [fabPosition, setFabPosition] = useState({ x: 16, y: 16 })
   const [mediaIndexByScene, setMediaIndexByScene] = useState(() =>
     SCENES.reduce((acc, scene) => {
@@ -369,15 +386,39 @@ function App() {
 
   const shouldOpenPanelBelow = fabPosition.y < 260
   const shouldAlignPanelLeft = fabPosition.x < 280
+  const activeSceneIndex = SCENES.findIndex((scene) => scene.id === activeSceneId)
+
+  const goToScene = (step) => {
+    const container = scrollContainerRef.current
+    if (!container) {
+      return
+    }
+
+    const nextIndex = activeSceneIndex + step
+    if (nextIndex < 0 || nextIndex >= SCENES.length) {
+      return
+    }
+
+    const targetId = SCENES[nextIndex].id
+    const target = sceneRefs.current[targetId]
+    if (!target) {
+      return
+    }
+
+    container.scrollTo({
+      top: target.offsetTop,
+      behavior: 'smooth',
+    })
+  }
 
   return (
     <main className="story-app">
       <header className="story-header">
         <p className="kicker">Narrativa Multimédia Interativa</p>
-        <h1>Rotina de um estudante que trabalha</h1>
+        <h1>Impacto do abuso infantil na vida de menores em Angola</h1>
         <p className="intro">
-          Versão base: apenas visual. Versão enriquecida: áudio e legendas
-          controladas pelo utilizador.
+          Personagem: Nzola, 10 anos. Esta experiência promove sensibilização,
+          proteção e denúncia responsável, sem conteúdo explícito.
         </p>
       </header>
 
@@ -510,6 +551,33 @@ function App() {
             {isAudioEnabled ? 'Desativar Áudio' : 'Ativar Áudio'}
           </button>
 
+          <div className="scene-nav-controls">
+            <button
+              type="button"
+              className="control-btn"
+              onClick={() => goToScene(-1)}
+              disabled={activeSceneIndex <= 0}
+            >
+              Voltar
+            </button>
+            <button
+              type="button"
+              className="control-btn"
+              onClick={() => goToScene(1)}
+              disabled={activeSceneIndex >= SCENES.length - 1}
+            >
+              Próxima Cena
+            </button>
+          </div>
+
+          <button
+            type="button"
+            className="control-btn"
+            onClick={() => setIsLearnMoreOpen((value) => !value)}
+          >
+            {isLearnMoreOpen ? 'Fechar Saber Mais' : 'Saber mais'}
+          </button>
+
           {audioBlocked && (
             <p className="audio-help">
               O navegador bloqueou reprodução automática. Clique novamente em
@@ -519,11 +587,23 @@ function App() {
         </div>
       </aside>
 
+      {isLearnMoreOpen && (
+        <section className="learn-more-panel" aria-live="polite">
+          <h3>Proteção infantil e denúncia</h3>
+          <p>
+            O abuso infantil pode ser físico, emocional, sexual ou por negligência.
+            Sinais comuns incluem medo constante, isolamento, mudanças bruscas de
+            comportamento e queda no rendimento escolar.
+          </p>
+          <p>
+            Em situações de suspeita, procurar autoridades competentes e serviços
+            de proteção é essencial para garantir segurança da criança.
+          </p>
+        </section>
+      )}
+
       <footer className="story-footer">
-        <p>
-          Substitua os placeholders em <strong>public/media</strong> pelos seus
-          conteúdos autorais para entrega final.
-        </p>
+        <p>“O silêncio protege o agressor. A denúncia protege a criança.”</p>
       </footer>
     </main>
   )

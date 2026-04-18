@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="t d">
+  <title id="t">Cena 2 imagem 1</title>
+  <desc id="d">Chegada à universidade</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#062d2a"/>
+      <stop offset="100%" stop-color="#1f6e66"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect x="180" y="160" width="1240" height="580" rx="20" fill="#b9f5de" opacity="0.16"/>
+  <text x="80" y="130" font-size="54" fill="#ecfffa" font-family="Arial">Entrada do campus</text>
+  <text x="80" y="820" font-size="38" fill="#c7f2e6" font-family="Arial">Placeholder autoral • Substituir por foto original</text>
+</svg>

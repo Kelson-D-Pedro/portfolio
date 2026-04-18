@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import './App.css'
 
+const FAB_MARGIN = 12
+
 const SCENES = [
   {
     id: 'cena-1',
@@ -151,6 +153,7 @@ function App() {
   const [activeSceneId, setActiveSceneId] = useState(SCENES[0].id)
   const [audioBlocked, setAudioBlocked] = useState(false)
   const [isControlsOpen, setIsControlsOpen] = useState(false)
+  const [fabPosition, setFabPosition] = useState({ x: 16, y: 16 })
   const [mediaIndexByScene, setMediaIndexByScene] = useState(() =>
     SCENES.reduce((acc, scene) => {
       acc[scene.id] = 0
@@ -162,6 +165,28 @@ function App() {
   const audioRefs = useRef({})
   const scrollContainerRef = useRef(null)
   const controlsRef = useRef(null)
+  const dragStateRef = useRef({
+    dragging: false,
+    moved: false,
+    pointerId: null,
+    startPointerX: 0,
+    startPointerY: 0,
+    startFabX: 0,
+    startFabY: 0,
+  })
+
+  const clampFabPosition = (x, y) => {
+    const controlsElement = controlsRef.current
+    const width = controlsElement?.offsetWidth ?? 76
+    const height = controlsElement?.offsetHeight ?? 76
+    const maxX = Math.max(FAB_MARGIN, window.innerWidth - width - FAB_MARGIN)
+    const maxY = Math.max(FAB_MARGIN, window.innerHeight - height - FAB_MARGIN)
+
+    return {
+      x: Math.min(Math.max(FAB_MARGIN, x), maxX),
+      y: Math.min(Math.max(FAB_MARGIN, y), maxY),
+    }
+  }
 
   useEffect(() => {
     const container = scrollContainerRef.current
@@ -246,6 +271,41 @@ function App() {
   }, [activeSceneId])
 
   useEffect(() => {
+    const saved = window.localStorage.getItem('multimidia-fab-position')
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved)
+        if (typeof parsed?.x === 'number' && typeof parsed?.y === 'number') {
+          setFabPosition(clampFabPosition(parsed.x, parsed.y))
+          return
+        }
+      } catch {
+        window.localStorage.removeItem('multimidia-fab-position')
+      }
+    }
+
+    const controlsElement = controlsRef.current
+    const width = controlsElement?.offsetWidth ?? 76
+    const height = controlsElement?.offsetHeight ?? 76
+    const defaultX = window.innerWidth - width - FAB_MARGIN
+    const defaultY = window.innerHeight - height - FAB_MARGIN
+    setFabPosition(clampFabPosition(defaultX, defaultY))
+  }, [])
+
+  useEffect(() => {
+    const handleResize = () => {
+      setFabPosition((prev) => clampFabPosition(prev.x, prev.y))
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  useEffect(() => {
+    window.localStorage.setItem('multimidia-fab-position', JSON.stringify(fabPosition))
+  }, [fabPosition])
+
+  useEffect(() => {
     const handleOutsideClick = (event) => {
       if (!controlsRef.current?.contains(event.target)) {
         setIsControlsOpen(false)
@@ -255,6 +315,60 @@ function App() {
     document.addEventListener('pointerdown', handleOutsideClick)
     return () => document.removeEventListener('pointerdown', handleOutsideClick)
   }, [])
+
+  const handleFabPointerDown = (event) => {
+    if (event.pointerType === 'mouse' && event.button !== 0) {
+      return
+    }
+
+    const dragState = dragStateRef.current
+    dragState.dragging = true
+    dragState.moved = false
+    dragState.pointerId = event.pointerId
+    dragState.startPointerX = event.clientX
+    dragState.startPointerY = event.clientY
+    dragState.startFabX = fabPosition.x
+    dragState.startFabY = fabPosition.y
+
+    const handlePointerMove = (moveEvent) => {
+      if (!dragState.dragging || moveEvent.pointerId !== dragState.pointerId) {
+        return
+      }
+
+      const deltaX = moveEvent.clientX - dragState.startPointerX
+      const deltaY = moveEvent.clientY - dragState.startPointerY
+
+      if (Math.abs(deltaX) > 4 || Math.abs(deltaY) > 4) {
+        dragState.moved = true
+      }
+
+      const nextPosition = clampFabPosition(
+        dragState.startFabX + deltaX,
+        dragState.startFabY + deltaY,
+      )
+      setFabPosition(nextPosition)
+    }
+
+    const handlePointerUp = (upEvent) => {
+      if (upEvent.pointerId !== dragState.pointerId) {
+        return
+      }
+
+      dragState.dragging = false
+      window.removeEventListener('pointermove', handlePointerMove)
+      window.removeEventListener('pointerup', handlePointerUp)
+
+      if (!dragState.moved) {
+        setIsControlsOpen((value) => !value)
+      }
+    }
+
+    window.addEventListener('pointermove', handlePointerMove)
+    window.addEventListener('pointerup', handlePointerUp)
+  }
+
+  const shouldOpenPanelBelow = fabPosition.y < 260
+  const shouldAlignPanelLeft = fabPosition.x < 280
 
   return (
     <main className="story-app">
@@ -329,20 +443,29 @@ function App() {
 
       <aside
         ref={controlsRef}
-        className={`floating-controls ${isControlsOpen ? 'open' : 'collapsed'}`}
+        className={`floating-controls ${isControlsOpen ? 'open' : 'collapsed'} ${
+          shouldOpenPanelBelow ? 'panel-below' : 'panel-above'
+        } ${shouldAlignPanelLeft ? 'panel-left' : 'panel-right'}`}
         aria-label="Controles narrativos"
+        style={{ left: `${fabPosition.x}px`, top: `${fabPosition.y}px` }}
       >
         <button
           type="button"
           className="controls-fab"
           aria-label="Abrir ou fechar controles"
           aria-expanded={isControlsOpen}
-          onClick={() => setIsControlsOpen((value) => !value)}
+          onPointerDown={handleFabPointerDown}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+              event.preventDefault()
+              setIsControlsOpen((value) => !value)
+            }
+          }}
         >
           <span className="fab-icon">{isControlsOpen ? '×' : '☰'}</span>
-          <span className="fab-summary">
-            {mode === 'base' ? 'Base' : 'Enriq'} · {isAudioEnabled ? 'A' : '-'} ·{' '}
-            {isSubtitlesEnabled ? 'L' : '-'}
+          <span className="fab-status-badge">
+            {mode === 'base' ? 'Base' : 'Enriq'} · {isAudioEnabled ? 'Áudio' : 'Sem áudio'} ·{' '}
+            {isSubtitlesEnabled ? 'Legenda' : 'Sem legenda'}
           </span>
         </button>
 

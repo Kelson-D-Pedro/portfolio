@@ -84,7 +84,8 @@
   margin: 0 auto;
   min-height: 100%;
   display: grid;
-  align-content: start;
+  grid-template-rows: auto auto 1fr auto;
+  align-content: stretch;
   gap: 1rem;
 }
 
@@ -111,6 +112,8 @@
   max-width: 980px;
   margin: 0 auto;
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .media-card {
@@ -118,7 +121,9 @@
   overflow: clip;
   border: 1px solid var(--line);
   background: var(--surface-elevated);
+  width: 100%;
   min-height: 240px;
+  height: min(56svh, 520px);
 }
 
 .media-card img,
@@ -209,8 +214,6 @@
 
 .floating-controls {
   position: fixed;
-  bottom: 1rem;
-  right: 1rem;
   z-index: 90;
 }
 
@@ -231,6 +234,8 @@
   cursor: pointer;
   transition: transform 180ms ease, border-color 180ms ease,
     background 180ms ease;
+  touch-action: none;
+  user-select: none;
 }
 
 .controls-fab:hover {
@@ -242,21 +247,29 @@
 }
 
 .fab-icon {
-  font-size: 1.05rem;
+  font-size: 1.12rem;
   line-height: 1;
 }
 
-.fab-summary {
-  font-size: 0.58rem;
+.fab-status-badge {
+  position: absolute;
+  right: 84px;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: 0.02em;
-  color: var(--text-soft);
+  color: var(--text-primary);
+  background: color-mix(in srgb, var(--surface-elevated) 90%, transparent);
+  border: 1px solid color-mix(in srgb, var(--line) 72%, transparent);
+  border-radius: 999px;
+  padding: 0.25rem 0.55rem;
+  box-shadow: 0 10px 20px -16px rgba(0, 0, 0, 0.88);
+  pointer-events: none;
 }
 
 .controls-panel {
   position: absolute;
-  right: 0;
-  bottom: 88px;
   width: min(350px, calc(100vw - 1.6rem));
   display: grid;
   gap: 0.65rem;
@@ -268,6 +281,26 @@
   backdrop-filter: blur(8px);
   transform-origin: bottom right;
   transition: opacity 180ms ease, transform 220ms ease;
+}
+
+.floating-controls.panel-right .controls-panel {
+  right: 0;
+  left: auto;
+}
+
+.floating-controls.panel-left .controls-panel {
+  left: 0;
+  right: auto;
+}
+
+.floating-controls.panel-above .controls-panel {
+  bottom: 88px;
+  top: auto;
+}
+
+.floating-controls.panel-below .controls-panel {
+  top: 88px;
+  bottom: auto;
 }
 
 .floating-controls.collapsed .controls-panel {
@@ -374,19 +407,26 @@
   }
 
   .media-card {
-    min-height: 210px;
+    min-height: 220px;
+    height: min(52svh, 430px);
   }
 
   .floating-controls {
-    right: 0.6rem;
-    bottom: max(0.55rem, env(safe-area-inset-bottom));
+    z-index: 100;
   }
 
   .controls-panel {
     width: min(340px, calc(100vw - 1.2rem));
-    bottom: 84px;
     padding: 0.6rem;
     gap: 0.45rem;
+  }
+
+  .floating-controls.panel-above .controls-panel {
+    bottom: 84px;
+  }
+
+  .floating-controls.panel-below .controls-panel {
+    top: 84px;
   }
 
   .mode-toggle button,
@@ -398,7 +438,7 @@
 
 @media (max-width: 760px) {
   .story-header {
-    padding: 0.95rem 0.85rem 0.8rem;
+    padding: 0.85rem 0.75rem 0.6rem;
   }
 
   .kicker {
@@ -406,7 +446,8 @@
   }
 
   .intro {
-    font-size: 0.92rem;
+    font-size: 0.84rem;
+    line-height: 1.25;
   }
 
   .scene-indicator {
@@ -415,7 +456,7 @@
   }
 
   .scene {
-    padding: 0.85rem;
+    padding: 0.75rem;
   }
 
   .scene-heading h2 {
@@ -427,7 +468,8 @@
   }
 
   .media-card {
-    min-height: 180px;
+    min-height: 230px;
+    height: min(47svh, 380px);
   }
 
   .scene-subtitle-overlay {
@@ -439,37 +481,31 @@
     line-height: 1.28;
   }
 
-  .floating-controls {
-    left: 50%;
-    transform: translateX(-50%);
-    right: auto;
-    bottom: max(0.45rem, env(safe-area-inset-bottom));
+  .controls-fab {
+    width: 64px;
+    height: 64px;
   }
 
-  .controls-fab {
-    width: 70px;
-    height: 70px;
+  .fab-status-badge {
+    right: 72px;
+    font-size: 0.62rem;
+    max-width: calc(100vw - 90px);
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .controls-panel {
-    left: 50%;
-    right: auto;
-    width: min(460px, calc(100vw - 1rem));
-    bottom: 80px;
+    width: min(320px, calc(100vw - 1rem));
     border-radius: 0.85rem;
     padding: 0.55rem;
-    transform-origin: bottom center;
   }
 
-  .floating-controls.collapsed .controls-panel {
-    opacity: 0;
-    transform: translateX(-50%) scale(0.9) translateY(8px);
-    pointer-events: none;
+  .floating-controls.panel-above .controls-panel {
+    bottom: 80px;
   }
 
-  .floating-controls.open .controls-panel {
-    opacity: 1;
-    transform: translateX(-50%) scale(1) translateY(0);
+  .floating-controls.panel-below .controls-panel {
+    top: 80px;
   }
 
   .controls-head {
@@ -486,7 +522,8 @@
   }
 
   .scene-content {
-    padding-bottom: 6.4rem;
+    gap: 0.75rem;
+    padding-bottom: 5.8rem;
   }
 
   .story-footer {

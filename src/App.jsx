@@ -195,31 +195,51 @@ function App() {
       return undefined
     }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)
+    const updateActiveScene = () => {
+      const containerCenter = container.scrollTop + container.clientHeight / 2
 
-        if (visible.length > 0) {
-          setActiveSceneId(visible[0].target.id)
+      let closestId = SCENES[0].id
+      let closestDistance = Number.POSITIVE_INFINITY
+
+      SCENES.forEach((scene) => {
+        const element = sceneRefs.current[scene.id]
+        if (!element) {
+          return
         }
-      },
-      {
-        root: container,
-        threshold: [0.4, 0.55, 0.7],
-        rootMargin: '0px',
-      },
-    )
 
-    SCENES.forEach((scene) => {
-      const element = sceneRefs.current[scene.id]
-      if (element) {
-        observer.observe(element)
+        const sceneCenter = element.offsetTop + element.offsetHeight / 2
+        const distance = Math.abs(sceneCenter - containerCenter)
+
+        if (distance < closestDistance) {
+          closestDistance = distance
+          closestId = scene.id
+        }
+      })
+
+      setActiveSceneId((prev) => (prev === closestId ? prev : closestId))
+    }
+
+    let rafId = null
+    const onScroll = () => {
+      if (rafId !== null) {
+        return
       }
-    })
 
-    return () => observer.disconnect()
+      rafId = window.requestAnimationFrame(() => {
+        updateActiveScene()
+        rafId = null
+      })
+    }
+
+    updateActiveScene()
+    container.addEventListener('scroll', onScroll, { passive: true })
+
+    return () => {
+      if (rafId !== null) {
+        window.cancelAnimationFrame(rafId)
+      }
+      container.removeEventListener('scroll', onScroll)
+    }
   }, [])
 
   useEffect(() => {

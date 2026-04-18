@@ -15,29 +15,25 @@ const SCENES = [
       {
         id: 'img-1',
         type: 'image',
-        src: '/media/images/storyboard-collage.jpeg',
-        focus: '16% 15%',
+        src: '/media/images/cena-1-img-1.jpg',
         alt: 'Crianças brincando na rua do bairro',
       },
       {
         id: 'img-2',
         type: 'image',
-        src: '/media/images/storyboard-collage.jpeg',
-        focus: '50% 14%',
+        src: '/media/images/cena-1-img-2.jpg',
         alt: 'Nzola brincando com outras crianças',
       },
       {
         id: 'img-3',
         type: 'image',
-        src: '/media/images/storyboard-collage.jpeg',
-        focus: '84% 14%',
+        src: '/media/images/cena-1-img-3.jpg',
         alt: 'Rosto de Nzola sorrindo',
       },
       {
         id: 'img-4',
         type: 'image',
-        src: '/media/images/storyboard-collage.jpeg',
-        focus: '13% 42%',
+        src: '/media/images/cena-1-img-4.jpg',
         alt: 'Nzola indo à escola com mochila',
       },
       {
@@ -60,22 +56,19 @@ const SCENES = [
       {
         id: 'img-5',
         type: 'image',
-        src: '/media/images/storyboard-collage.jpeg',
-        focus: '11% 70%',
+        src: '/media/images/cena-2-img-1.jpg',
         alt: 'Nzola com expressão triste e olhar baixo',
       },
       {
         id: 'img-6',
         type: 'image',
-        src: '/media/images/storyboard-collage.jpeg',
-        focus: '68% 78%',
+        src: '/media/images/cena-2-img-2.jpg',
         alt: 'Porta semiaberta simbolizando medo e silêncio',
       },
       {
         id: 'img-7',
         type: 'image',
-        src: '/media/images/storyboard-collage.jpeg',
-        focus: '31% 43%',
+        src: '/media/images/cena-2-img-3.jpg',
         alt: 'Detalhe de tensão e insegurança',
       },
       {
@@ -98,22 +91,19 @@ const SCENES = [
       {
         id: 'img-8',
         type: 'image',
-        src: '/media/images/storyboard-collage.jpeg',
-        focus: '83% 42%',
+        src: '/media/images/cena-3-img-1.jpg',
         alt: 'Abraço e acolhimento entre criança e adulta',
       },
       {
         id: 'img-9',
         type: 'image',
-        src: '/media/images/storyboard-collage.jpeg',
-        focus: '49% 78%',
+        src: '/media/images/cena-3-img-2.jpg',
         alt: 'Nzola retomando confiança',
       },
       {
         id: 'img-10',
         type: 'image',
-        src: '/media/images/storyboard-collage.jpeg',
-        focus: '89% 78%',
+        src: '/media/images/cena-3-img-3.jpg',
         alt: 'Professora observando e oferecendo apoio',
       },
     ],
@@ -138,13 +128,7 @@ function MediaCard({ item, className = '' }) {
   return (
     <article className={`media-card ${className}`.trim()}>
       {item.type === 'image' ? (
-        <img
-          src={item.src}
-          alt={item.alt}
-          loading="lazy"
-          style={{ objectPosition: item.focus ?? 'center' }}
-          onError={() => setFailed(true)}
-        />
+        <img src={item.src} alt={item.alt} loading="lazy" onError={() => setFailed(true)} />
       ) : (
         <video
           src={item.src}

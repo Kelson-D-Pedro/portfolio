@@ -1,14 +1,14 @@
 :root {
-  --surface-base: #0e1118;
-  --surface-elevated: #161b25;
-  --line: #283041;
-  --accent-line: #48c0ff;
-  --accent-soft: rgba(72, 192, 255, 0.12);
-  --subtitle-bg: rgba(26, 40, 56, 0.75);
-  --text-primary: #f4f7fc;
-  --text-muted: #ced8e6;
-  --text-soft: #9bb0c7;
-  --shadow-soft: 0 18px 28px -16px rgba(0, 0, 0, 0.55);
+  --surface-base: #0f0b1a;
+  --surface-elevated: #2a1f3d;
+  --line: #4c3a69;
+  --accent-line: #c084fc;
+  --accent-soft: rgba(192, 132, 252, 0.14);
+  --subtitle-bg: rgba(42, 31, 61, 0.82);
+  --text-primary: #e9d5ff;
+  --text-muted: #a78bfa;
+  --text-soft: #a78bfa;
+  --shadow-soft: 0 18px 28px -16px rgba(0, 0, 0, 0.6);
 
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
   font-synthesis: none;
@@ -32,7 +32,7 @@ body,
 
 body {
   min-height: 100svh;
-  background: radial-gradient(circle at top, #1a2130 0%, #0d1016 60%);
+  background: radial-gradient(circle at top, #1a132a 0%, #0f0b1a 60%, #090613 100%);
   color: var(--text-primary);
 }
 

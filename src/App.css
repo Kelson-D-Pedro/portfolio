@@ -106,14 +106,14 @@
 .scene-heading h2 {
   margin: 0;
   font-size: clamp(1.3rem, 3.2vw, 2rem);
-  color: #f8fbff;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.65);
+  color: var(--text-primary);
+  text-shadow: none;
 }
 
 .scene-heading span {
-  color: #d8e5ff;
+  color: var(--text-muted);
   font-weight: 600;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.65);
+  text-shadow: none;
 }
 
 .scene-media-player {
@@ -148,7 +148,7 @@
   object-position: center center;
   display: block;
   aspect-ratio: auto;
-  background: #05070d;
+  background: var(--surface-base);
 }
 
 .media-transition {
@@ -227,7 +227,7 @@
   z-index: 3;
   margin: 0;
   border-radius: 0.6rem;
-  background: color-mix(in srgb, var(--subtitle-bg) 85%, #000 15%);
+  background: color-mix(in srgb, var(--subtitle-bg) 88%, var(--surface-base) 12%);
   border: 1px solid color-mix(in srgb, var(--accent-line) 75%, transparent);
   backdrop-filter: blur(3px);
   font-size: 0.93rem;
